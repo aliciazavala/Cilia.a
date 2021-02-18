@@ -2,12 +2,20 @@ from random import randint
 import random
 import discord 
 import asyncio
+import time
+import string
+import statistics
 from discord.ext import commands
 
 # A bot for use with Discord 
 # Prefix and bot Description
 bot = discord.Client()
 bot = commands.Bot(command_prefix='!', description="A bot to handle Daniel's memes and dice rolls")
+
+
+inGame = True
+randNumb = 0
+lst = []
 
 #constants
 def is_me(m):
@@ -61,25 +69,70 @@ async def on_message(message):
     # this is the channel of there the message is sent
     channel = message.channel
 
+################################################################################################################################################################################################################    
+    '''if inGame == True:
+        if message.content.startswith("!stop"):
+            closestNum = lst[min(range(len(lst)), key = lambda i: abs(lst[i]-randNumb))]
+            await channel.send("Closest number is.....")
+            time.sleep(1)
+            await channel.send(closestNum)
+            inGame = False
+            return
+        try:
+            lst.append(int(message.content))
+        except:
+            return'''
     #check if message is an attatchment not sent to the memes channel 
     if message.attachments :
         if message.channel.name.find('memes') == -1:
             await message.author.send("better not be a meme.",file=discord.File(r'./images/shooter.png'))
-    
+################################################################################################################################################################################################################    
     # check the omg and add to voice channel
-    if (message.content.find('omg') != -1 or message.content.find('OMG') != -1):
+    elif (message.content.find('omg') != -1 or message.content.find('OMG') != -1):
         if(message.author.voice.channel is not None):
             vc = await message.author.voice.channel.connect()
-            vc.play(discord.FFmpegPCMAudio(source='sounds/ohmygot.mp3'))
+            time.sleep(float(random.randrange(1, 300))/100)
+            vc.play(discord.FFmpegPCMAudio(executable ='C:/FFmpeg/bin/ffmpeg.exe' ,source='C:/Users/adenr/Desktop/Cilia.a-main/sounds/ohmigot.mp3'))
             print(message.author.voice.channel)
         else:
             print("not")
-       
-        #else:
-           #print("You're not in a voice channel or you're connected to a channel which I can't access.")
+        while vc.is_playing(): 
+            time.sleep(.1)
+        await vc.disconnect()
 
-        
-
+    elif message.content.startswith("!guess"):
+        try:
+            numb = int(message.content[7:])
+        except:
+            return
+        randNum = random.randrange(1,numb)
+        msg = "I'm thinkin of a number between 1 and" + str(numb)
+        await channe.send(msg)
+################################################################################################################################################################################################################      
+    elif(message.content.startswith("!")) and message.content.startswith("!8ball") != True :
+        tempString = message.content[1:] # Cuts off the exclamation point
+        numbs = tempString.split("d", 1) # Splits the string into an array seperated by the d "1d4"
+        try:                             
+            S = int(numbs[1]) #sides of dice   #makes sure inputs are integers, otherwise omigot
+            N = int(numbs[0]) #number of dice
+        except:
+            return
+        print(S)
+        print(N)
+        if S != 0 and N != 0: #checks if inputs are 0, if so omigot
+            rolls = []
+            for x in range(N):    #generic dice rolling function
+                roll = random.randrange(1,S)
+                rolls.append(roll)
+                
+            msg = "Average = " + str(statistics.fmean(rolls))    
+            await channel.send(rolls)
+            await channel.send(msg)
+        else:
+            await channel.send("Ohmigot")
+            return
+    
+################################################################################################################################################################################################################
     # if the user is the client user itself, ignore the message
     if user == bot.user:
         return
@@ -92,4 +145,4 @@ async def on_message(message):
     print(user, message.channel, content)
 
 
-bot.run(inserToken)
+bot.run()
