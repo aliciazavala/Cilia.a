@@ -92,4 +92,4 @@ async def on_message(message):
     print(user, message.channel, content)
 
 
-bot.run('ODExNjE0MDI1NjYyMjAxOTE2.YC0wdg.ZR4xhqBiz5bD4WKImRBpq1RvTfY')
+bot.run(inserToken)
