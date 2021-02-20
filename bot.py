@@ -84,11 +84,11 @@ async def on_message(message):
             return'''
     #check if message is an attatchment not sent to the memes channel 
     if message.attachments :
-        if message.channel.name.find('memes') == -1:
+        if (message.channel.name.find('memes') == -1 and message.channel.name.find('stonks') == -1 and message.channel.name.find('create') == -1):
             await message.author.send("better not be a meme.",file=discord.File(r'./images/shooter.png'))
 ################################################################################################################################################################################################################    
     # check the omg and add to voice channel
-    elif (message.content.find('omg') != -1 or message.content.find('OMG') != -1):
+    elif (message.content.find('omg') != -1 or message.content.find('OMG') != -1 or message.content.find('Omg') != -1):
         if(message.author.voice.channel is not None):
             vc = await message.author.voice.channel.connect()
             time.sleep(float(random.randrange(1, 300))/100)
