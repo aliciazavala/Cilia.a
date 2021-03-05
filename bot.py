@@ -121,7 +121,7 @@ async def on_message(message):
         print(N)
         if S != 0 and N != 0: #checks if inputs are 0, if so omigot
             rolls = []
-            for x in range(N):    #generic dice rolling function
+            for x in range(N+1):    #generic dice rolling function
                 roll = random.randrange(1,S)
                 rolls.append(roll)
                 
