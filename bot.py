@@ -68,7 +68,34 @@ async def on_message(message):
     
     # this is the channel of there the message is sent
     channel = message.channel
-
+################################################################################################################################################################################################################    
+@bot.event
+async def on_message(message):
+    if isinstance(message.channel, discord.channel.DMChannel) and message.author != bot.user:
+        print(message.author)
+        print(message.content)
+        if(message.content.find('fuck you') == -1):
+            responses = ['Idk ask Alicia', 
+                      'You fucking cunt',
+                      'Honestly, Alicia is amazing',
+                      'You looking seggsy today',
+                      'Ohmigot',
+                      'Alicia is so smart',
+                      'Hey baby, whats your OS?',
+                      'Can I have your ip number? i seem to have lost mine.',
+                      'When you flash your software, my floppy disk becomes a hard drive.',
+                      'Beep beep boop beep beep beep boop sex',
+                      'Sorry, I only love Alicia',
+                      'You compile me.',
+                      'Was your father a thief? Because he stole some titanium bolts and put them in your eyes.',
+                      'Ill show you my source code if you show me yours'        
+                    ]
+            await message.channel.send(f'{random.choice(responses)}')
+            return
+        else:
+            await message.channel.send('no fuck you.')
+            return
+       
 ################################################################################################################################################################################################################    
     '''if inGame == True:
         if message.content.startswith("!stop"):
@@ -121,7 +148,7 @@ async def on_message(message):
         print(N)
         if S != 0 and N != 0: #checks if inputs are 0, if so omigot
             rolls = []
-            for x in range(N):    #generic dice rolling function
+            for x in range(N+1):    #generic dice rolling function
                 roll = random.randrange(1,S)
                 rolls.append(roll)
                 
@@ -134,15 +161,15 @@ async def on_message(message):
     
 ################################################################################################################################################################################################################
     # if the user is the client user itself, ignore the message
-    if user == bot.user:
-        return
+    if message.author == bot.user:
+       return
 
     # check if the message is a command 
     await bot.process_commands(message) 
 
 
     # DELETE LATER. JUST TO DEBUG SHIT   
-    print(user, message.channel, content)
+    #print(user, message.channel, content)
 
 
 bot.run()
